@@ -2,33 +2,33 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-csv_file_path = 'wealth-distribution-2025-05-28-22-33-01.csv'
+csv_file_path = 'wealth-distribution-2025-05-30-15-23-26.csv'
 
-def gini_coefficient(incomes):
-    incomes = np.array(incomes)
-    total_income = incomes.sum()
-    incomes = np.sort(incomes)
-    cumulative_income = np.cumsum(incomes) / total_income
-    cumulative_percentage = np.linspace(0, 1, len(incomes))
-    s1 = 0  # 分子
+def gini_coefficient(wealth_list):
+    wealth_list = np.array(wealth_list)
+    total_wealth = wealth_list.sum()
+    wealth_list = np.sort(wealth_list)
+    cumulative_wealth = np.cumsum(wealth_list) / total_wealth
+    cumulative_percentage = np.linspace(0, 1, len(wealth_list))
+    s1 = 0
     s2 = 0
-    for i in range(0,len(incomes)):
-        s1 += np.abs(cumulative_percentage[i] - cumulative_income[i])
+    for i in range(0, len(wealth_list)):
+        s1 += np.abs(cumulative_percentage[i] - cumulative_wealth[i])
         s2 += np.abs(cumulative_percentage[i])
     gini = s1/s2
     return gini
 
-def plot_lorenz_curve(incomes):
-    incomes = np.array(incomes)
-    total_income = incomes.sum()
-    incomes = np.sort(incomes)
-    cumulative_income = np.cumsum(incomes) / total_income
-    cumulative_percentage = np.linspace(0, 1, len(incomes))
+def plot_lorenz_curve(wealth_list):
+    wealth_list = np.array(wealth_list)
+    total_wealth = wealth_list.sum()
+    wealth_list = np.sort(wealth_list)
+    cumulative_wealth = np.cumsum(wealth_list) / total_wealth
+    cumulative_percentage = np.linspace(0, 1, len(wealth_list))
 
     plt.figure(figsize=(8, 6))
-    plt.plot(cumulative_percentage, cumulative_income, label='Lorenz Curve', marker='o')
+    plt.plot(cumulative_percentage, cumulative_wealth, label='Lorenz Curve', marker='o')
     plt.plot([0, 1], [0, 1], color='r', linestyle='--', label='Equality Line')
-    plt.fill_between(cumulative_percentage, cumulative_percentage, cumulative_income, color='skyblue', alpha=0.5)
+    plt.fill_between(cumulative_percentage, cumulative_percentage, cumulative_wealth, color='skyblue', alpha=0.5)
     plt.xlabel('Cumulative % of Population')
     plt.ylabel('Cumulative % of Wealth')
     plt.title('Lorenz Curve')
